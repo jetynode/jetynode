@@ -6,6 +6,7 @@ const cors = require("cors");
 const apiRoutes = require("./routes/api");
 const webRoutes = require("./routes/web");
 var bodyParser = require("body-parser");
+var Middleware = require("./app/Middleware");
 const app = express();
 
 app.use(cors({ origin: "*" }));
@@ -22,6 +23,8 @@ app.use(bodyParser.json());
 //set static folder
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use(Middleware);
+
 //Added Api routus in app
 app.use("/api", apiRoutes);
 
@@ -33,27 +36,18 @@ app.set("views", path.join(__dirname, "views"));
 app.engine("handlebars", engine({ defaultLayout: "layout" }));
 app.set("view engine", "handlebars");
 
-// /* Error handler middleware */
-// app.use((err, req, res, next) => {
-//   const statusCode = err.statusCode || 500;
-//   console.error(err.message, err.stack);
-//   res.status(statusCode).json({
-//     code: 500,
-//     message: "Somthing Wrong",
-//     error: err.message,
-//   });
-//   return;
-// });
-// error handler
+/* Error handler middleware */
 app.use((err, req, res, next) => {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render("error");
+  const statusCode = err.statusCode || 500;
+  console.error(err.message, err.stack);
+  res.status(statusCode).json({
+    code: 500,
+    message: "Somthing Wrong",
+    error: err.message,
+  });
+  return;
 });
+
 // This should be the last route else any after it wont work
 app.use("*", (req, res) => {
   res.status(404).json({

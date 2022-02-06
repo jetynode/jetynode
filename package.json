@@ -1,15 +1,16 @@
 {
-  "name": "programsmagic-api",
-  "version": "1.0.0",
+  "name": "jetynode",
+  "version": "0.1.0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["jetynode","nodejs","javascript"],
+  "author": "Prashant Mishra <programsmagic@gmail.com>",
+  "license": "MIT",
   "description": "",
   "dependencies": {
+    "@jetynode/framework": "^0.0.5",
     "@nodejscart/mysql-query-builder": "^1.3.2",
     "body-parser": "^1.19.1",
     "compression": "^1.7.4",

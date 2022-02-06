@@ -6,11 +6,10 @@ class Validator {
     return new Validate(obj, rules);
   }
 
-  //TODO: need to work on it not finish yet
   static makes(obj, rules) {
     let res = new Validate(obj, rules);
     if (res.fails()) {
-      throw new ValidationException("Validation error", res.errors.all());
+      throw new ValidationException(res.errors.all());
     }
   }
 }

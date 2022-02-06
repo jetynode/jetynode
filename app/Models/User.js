@@ -1,5 +1,3 @@
-const DB = require("../Utils/db");
-const Helper = require("../Helpers/databaseHelper");
 const Model = require("./Model");
 class User extends Model {
   table = "users";

@@ -35,22 +35,10 @@ exports.store = function (req, res, next) {
   let input = req.body;
 
   // TODO: work in progress
-  // Validator.makes(input, {
-  //   name: "required",
-  //   released_year: "required",
-  // });
-
-  //Validate Request Params
-  let request = Validator.make(input, {
+  Validator.makes(input, {
     name: "required|string",
     email: "email|required",
   });
-  if (request.fails()) {
-    res.json(
-      { code: 413, message: "Validation error", error: request.errors.all() },
-      413
-    );
-  }
 
   //Insert New User Row
   User.insert(input, function (err, data) {
@@ -66,13 +54,21 @@ exports.store = function (req, res, next) {
 
 // Handle User update on POST.
 exports.update = function (req, res, next) {
-  let params = {
-    name: "newLang",
-    released_year: 2004,
-  };
+  let input = req.body;
+  let request = Validator.make(input, {
+    name: "required|string",
+    email: "email|required",
+  });
+  if (request.fails()) {
+    res.status(413).json({
+      code: 413,
+      message: "Validation error",
+      error: request.errors.all(),
+    });
+  }
 
   // Update User Row
-  User.update(req.params.id, params, function (err, data) {
+  User.update(req.params.id, input, function (err, data) {
     if (err) return next(new AppError(err));
     if (data === true)
       res.status(200).json({
